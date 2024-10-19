@@ -7,21 +7,20 @@ pipeline {
             steps {
                 checkout scm
             }
-        } // stage Build
+        }
         stage('Build') {
             steps {
                 echo "Building ...${BUILD_NUMBER}"
                 echo "Build completed"
             }
-        } // stage Build
+        }
         stage('Test') {
             agent { docker { image 'alpine'
                 args '-u="root"' }
             }
             steps {
                 sh 'apk add --update python3 py-pip'
-                sh 'pip install Flask'
-                sh 'pip install xmlrunner'
+                sh 'pip install Flask xmlrunner'
                 sh 'python3 app_tests.py'
             }
             post {
@@ -35,6 +34,6 @@ pipeline {
                     echo "Oooppss!!! Tests failed!"
                 }
             }
-        } // stage Test
-    } // stages
-} // pipeline
+        }
+    }
+}
