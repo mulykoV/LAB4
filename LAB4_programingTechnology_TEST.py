@@ -71,4 +71,7 @@ class TestNotesStackApp(unittest.TestCase):
         mock_showwarning.assert_called_once_with("Помилка", "Немає нотаток для збереження!")
 
 if __name__ == "__main__":
+    import xmlrunner
+    runner = xmlrunner.XMLTestRunner(output='tesr-reports')
+    unittest.main(testRunner=runner)
     unittest.main()
