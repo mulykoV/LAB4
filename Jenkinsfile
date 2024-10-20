@@ -11,6 +11,9 @@ pipeline {
                 bat 'python -m pip install --upgrade pip'
                 bat 'pip install Flask xmlrunner'
                 bat 'python app_tests.py'
+                bat 'python --version'
+                bat 'dir test-reports'
+
             }
             post {
                 always {
