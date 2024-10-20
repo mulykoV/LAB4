@@ -4,6 +4,7 @@ from tkinter import messagebox
 from unittest.mock import patch
 from io import StringIO
 from LAB4_programingTechnology import NotesStackApp  
+import xmlrunner
 
 class TestNotesStackApp(unittest.TestCase):
 
@@ -71,7 +72,5 @@ class TestNotesStackApp(unittest.TestCase):
         mock_showwarning.assert_called_once_with("Помилка", "Немає нотаток для збереження!")
 
 if __name__ == "__main__":
-    import xmlrunner
-    runner = xmlrunner.XMLTestRunner(output='tesr-reports')
-    unittest.main(testRunner=runner)
-    unittest.main()
+    with open("test-reports/results.xml", "wb") as output:
+        unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output))
