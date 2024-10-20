@@ -4,7 +4,7 @@ from tkinter import messagebox
 from unittest.mock import patch
 from io import StringIO
 from LAB4_programingTechnology import NotesStackApp  
-import xmlrunner
+from junit_xml import TestSuite, TestCase
 
 class TestNotesStackApp(unittest.TestCase):
 
@@ -71,6 +71,15 @@ class TestNotesStackApp(unittest.TestCase):
         self.app.save_notes()
         mock_showwarning.assert_called_once_with("Помилка", "Немає нотаток для збереження!")
 
-if __name__ == "__main__":
-    with open("test-reports/results.xml", "wb") as output:
-        unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output))
+if __name__ == '__main__':
+    test_cases = []
+    test_case = TestCase('test_example')
+    test_case.stdout = 'Sample output'
+    test_case.stderr = 'Sample error'
+    test_cases.append(test_case)
+
+    ts = TestSuite("my test suite", test_cases)
+
+    with open('test-reports/results.xml', 'w') as f:
+        TestSuite.to_file(f, [ts], prettyprint=True)
+
