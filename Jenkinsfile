@@ -1,37 +1,26 @@
 pipeline {
-    options { timestamps() }
-    agent none
+    agent any
     stages {
-        stage('Check scm') {
-            agent any
-            steps {
-                checkout scm
-            }
-        }
         stage('Build') {
             steps {
                 echo "Building ...${BUILD_NUMBER}"
-                echo "Build completed"
             }
         }
         stage('Test') {
-            agent { docker { image 'alpine'
-                args '-u="root"' }
-            }
             steps {
-                sh 'apk add --update python3 py-pip'
-                sh 'pip install Flask xmlrunner'
-                sh 'python3 app_tests.py'
+                bat 'python -m pip install --upgrade pip'
+                bat 'pip install Flask xmlrunner'
+                bat 'python app_tests.py'
             }
             post {
                 always {
                     junit 'test-reports/*.xml'
                 }
                 success {
-                    echo "Application testing successfully completed"
+                    echo "Tests passed successfully!"
                 }
                 failure {
-                    echo "Oooppss!!! Tests failed!"
+                    echo "Tests failed!"
                 }
             }
         }
