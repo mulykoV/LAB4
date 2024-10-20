@@ -8,12 +8,9 @@ pipeline {
         }
         stage('Test') {
             steps {
-                bat 'python -m pip install --upgrade pip'
-                bat 'pip install Flask xmlrunner'
-                bat 'python app_tests.py'
-                bat 'python --version'
-                bat 'dir test-reports'
-
+                sh 'python3 -m pip install --upgrade pip'
+                sh 'pip3 install Flask xmlrunner'
+                sh 'python3 app_tests.py'
             }
             post {
                 always {
