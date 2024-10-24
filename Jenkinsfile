@@ -9,7 +9,7 @@
         stage('Test') {
             steps {
                 // Використовувати Python 3.11.9
-                sh 'python3 -m ensurepip --upgrade'
+                sh 'pip3 install --upgrade pip'
                 sh 'python3 -m pip install --upgrade pip'
                 sh 'pip3 install -r requirements.txt'
                 sh 'python3 LAB4_programingTechnology_TEST.py'
