@@ -15,7 +15,7 @@ pipeline {
             }
         } // stage Build
         stage('Test') {
-            agent { docker { image 'my-jenkins-image' }} // Використовуємо образ, де Tkinter встановлено
+            agent { docker { image 'lab4-jenkins' }} // Використовуємо образ lab4-jenkins
             steps {
                 // Створюємо віртуальне середовище
                 sh 'python3 -m venv venv'
