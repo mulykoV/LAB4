@@ -8,15 +8,17 @@ pipeline {
         }
         stage('Test') {
             steps {
-                // Перевіряємо наявність pip
-                sh 'python3 -m pip --version || sudo apt-get install -y python3-pip'
-                sh 'python3 -m pip install --upgrade pip'
-                sh 'pip3 install -r requirements.txt'
+                // Встановлення pip для поточного користувача
+                sh 'python3 -m ensurepip --user || echo "pip already available"'
+                sh 'python3 -m pip install --upgrade --user pip'
                 
-                // Створюємо директорію для звітів
+                // Встановлення залежностей для поточного користувача
+                sh 'python3 -m pip install --user -r requirements.txt'
+                
+                // Створення директорії для звітів
                 sh 'mkdir -p test-reports'
                 
-                // Запускаємо тести
+                // Запуск тестів
                 sh 'python3 LAB4_programingTechnology_TEST.py'
             }
             post {
