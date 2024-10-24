@@ -5,6 +5,7 @@ from unittest.mock import patch
 from io import StringIO
 from LAB4_programingTechnology import NotesStackApp  
 from junit_xml import TestSuite, TestCase
+import os  # Додаємо імпорт модуля os для створення директорії
 
 class TestNotesStackApp(unittest.TestCase):
 
@@ -72,6 +73,10 @@ class TestNotesStackApp(unittest.TestCase):
         mock_showwarning.assert_called_once_with("Помилка", "Немає нотаток для збереження!")
 
 if __name__ == '__main__':
+    # Переконатися, що директорія для звітів існує
+    if not os.path.exists('test-reports'):
+        os.makedirs('test-reports')
+
     test_cases = []
     test_case = TestCase('test_example')
     test_case.stdout = 'Sample output'
@@ -80,6 +85,6 @@ if __name__ == '__main__':
 
     ts = TestSuite("my test suite", test_cases)
 
+    # Записуємо результати тестів у файл XML
     with open('test-reports/results.xml', 'w') as f:
         TestSuite.to_file(f, [ts], prettyprint=True)
-
