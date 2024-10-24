@@ -15,18 +15,18 @@ pipeline {
             }
         } // stage Build
         stage('Test') {
+            agent { // Визначте агент тут
+                docker {
+                    image 'lab4-jenkins:1.1'
+                    args '-u root:root' // Додає можливість запускати з правами root
+                }
+            }
             steps {
-               agent {
-                    docker {
-                            image 'lab4-jenkins:1.1'
-                            args '-u root:root' // додає можливість запускати з правами root
-                            }
-                    }
                 // Створюємо віртуальне середовище
                 sh 'python3 -m venv venv'
                 // Використовуємо pip з віртуального середовища
                 sh 'venv/bin/pip install -r requirements.txt'
-                sh 'venv/bin/python venv/bin/LAB4_programingTechnology_TEST.py'
+                sh 'venv/bin/python LAB4_programingTechnology_TEST.py'
             }
             post {
                 always {
