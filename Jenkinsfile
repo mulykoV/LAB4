@@ -8,10 +8,9 @@ pipeline {
         }
         stage('Test') {
             steps {
+                sh 'python3 -m ensurepip --upgrade'
                 sh 'python3 -m pip install --upgrade pip'
-                sh 'python -m ensurepip --upgrade'
-                sh 'dir test-reports'
-                sh 'pip3 install Flask xmlrunner'
+                sh 'pip3 install -r requirements.txt'
                 sh 'python3 app_tests.py'
             }
             post {
