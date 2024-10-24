@@ -8,8 +8,8 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'python3.11.9 -m ensurepip --upgrade'
-                sh 'python3.11.9 -m pip install --upgrade pip'
+                sh 'python3 -m ensurepip --upgrade'
+                sh 'python3 -m pip install --upgrade pip'
                 sh 'pip3 install -r requirements.txt'
                 sh 'python3 LAB4_programingTechnology_TEST.py'
             }
