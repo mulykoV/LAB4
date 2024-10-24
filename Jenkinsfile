@@ -1,40 +1,49 @@
 pipeline {
-    options { timestamps() }
-    agent none
+    agent any
     stages {
-        stage('Check scm') {
-            agent any
-            steps {
-                checkout scm
-            }
-        } // stage Build
         stage('Build') {
             steps {
                 echo "Building ...${BUILD_NUMBER}"
-                echo "Build completed"
             }
-        } // stage Build
-        stage('Test') {
-            agent { docker { image 'alpine'
-                args '-u="root"' }
-            }
+        }
+        stage('Install Dependencies') {
             steps {
-               sh 'python3.11 -m ensurepip --upgrade'
-                sh 'python3.11 -m pip install --upgrade pip'
-                sh 'pip3.11 install -r requirements.txt'
-                sh 'python3.11 app_tests.py'
+                script {
+                    // Перевірка версії Python
+                    sh 'python3 --version || python --version'  // Показує версію Python
+                    
+                    // Забезпечити, що pip доступний
+                    sh 'python3 -m ensurepip --upgrade || python -m ensurepip --upgrade'
+                    
+                    // Оновити pip
+                    sh 'python3 -m pip install --upgrade pip || python -m pip install --upgrade pip'
+                    
+                    // Встановити залежності з requirements.txt
+                    sh 'pip install -r requirements.txt'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    // Запустити тести
+                    sh 'python3 LAB4_programingTechnology_TEST.py || python LAB4_programingTechnology_TEST.py'
+                }
             }
             post {
                 always {
+                    // Перевірити наявність звітів про тести
+                    sh 'ls -l test-reports'
+                    // Зберегти результати тестування
                     junit 'test-reports/*.xml'
                 }
                 success {
-                    echo "Application testing successfully completed"
+                    echo "Tests passed successfully!"
                 }
                 failure {
-                    echo "Oooppss!!! Tests failed!"
+                    echo "Tests failed!"
                 }
             }
-        } // stage Test
-    } // stages
-} // pipeline
+        }
+    }
+}
