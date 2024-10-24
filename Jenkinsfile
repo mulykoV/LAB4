@@ -8,10 +8,11 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'python3 -m ensurepip --upgrade'
-                sh 'python3 -m pip install --upgrade pip'
-                sh 'pip3 install -r requirements.txt'
-                sh 'python3 app_tests.py'
+                // Використовувати Python 3.11.9
+                sh 'python3.11 -m ensurepip --upgrade'
+                sh 'python3.11 -m pip install --upgrade pip'
+                sh 'pip3.11 install -r requirements.txt'
+                sh 'python3.11 app_tests.py'
             }
             post {
                 always {
