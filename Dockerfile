@@ -2,7 +2,7 @@ FROM jenkins/jenkins:lts
 USER root
 RUN apt-get update && apt-get install -y apt-transport-https \
        ca-certificates curl gnupg2 \
-       software-properties-common
+       software-properties-common python3-tk
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
 RUN apt-key fingerprint 0EBFCD88
 RUN add-apt-repository \
@@ -11,4 +11,3 @@ RUN add-apt-repository \
 RUN apt-get update && apt-get install -y docker-ce-cli
 USER jenkins
 RUN jenkins-plugin-cli
-RUN usermod -aG docker jenkins
