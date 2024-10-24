@@ -17,8 +17,7 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image 'lab4-jenkins:1.1'
-                    args '--network host' // Якщо потрібно, можна додати аргументи
+                    image 'lab4-jenkins:latest'
                 }
             }
             steps {
