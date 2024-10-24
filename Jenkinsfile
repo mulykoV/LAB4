@@ -16,6 +16,12 @@ pipeline {
         } // stage Build
         stage('Test') {
             steps {
+               agent {
+                    docker {
+                            image 'lab4-jenkins:1.1'
+                            args '-u root:root' // додає можливість запускати з правами root
+                            }
+                    }
                 // Створюємо віртуальне середовище
                 sh 'python3 -m venv venv'
                 // Використовуємо pip з віртуального середовища
