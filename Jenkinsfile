@@ -20,6 +20,9 @@ pipeline {
             }
             steps {
                 sh 'apk add --update python3 py-pip'
+                sh 'python3 -m venv venv'
+                sh '. venv/bin/activate'
+                sh 'python3 -m pip install --upgrade pip'
                 sh 'pip install -r requirements.txt'
                 sh 'python3 LAB4_programingTechnology_TEST.py'
             }
