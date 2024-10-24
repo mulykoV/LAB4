@@ -19,11 +19,11 @@ pipeline {
                 args '-u="root"' }
             }
             steps {
-                sh 'apk add --update python3 py-pip'
+                sh 'apk add --update python3 py3-pip'
                 sh 'python3 -m venv venv'
-                sh '. venv/bin/activate'
-                sh 'pip install -r requirements.txt'
-                sh 'python3 LAB4_programingTechnology_TEST.py'
+                // Використовуй python і pip з віртуального середовища
+                sh 'venv/bin/pip install -r requirements.txt'
+                sh 'venv/bin/python LAB4_programingTechnology_TEST.py'
             }
             post {
                 always {
@@ -38,4 +38,4 @@ pipeline {
             }
         } // stage Test
     } // stages
-} // pipeline
+}
