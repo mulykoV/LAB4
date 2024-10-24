@@ -20,8 +20,7 @@ pipeline {
             }
             steps {
                 sh 'apk add --update python3 py-pip'
-                sh 'pip install Flask'
-                sh 'pip install xmlrunner'
+                sh 'pip install -r requirements.txt'
                 sh 'python3 LAB4_programingTechnology_TEST.py'
             }
             post {
