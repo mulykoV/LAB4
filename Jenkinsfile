@@ -15,7 +15,6 @@ pipeline {
             }
         } // stage Build
         stage('Test') {
-            agent { docker { image 'lab4-jenkins:1.1' }} // Використовуємо локальний образ
             steps {
                 // Створюємо віртуальне середовище
                 sh 'python3 -m venv venv'
