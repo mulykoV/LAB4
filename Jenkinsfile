@@ -1,16 +1,27 @@
- pipeline {
-    agent any
+pipeline {
+    options { timestamps() }
+    agent none
     stages {
+        stage('Check scm') {
+            agent any
+            steps {
+                checkout scm
+            }
+        } // stage Build
         stage('Build') {
             steps {
                 echo "Building ...${BUILD_NUMBER}"
+                echo "Build completed"
             }
-        }
+        } // stage Build
         stage('Test') {
+            agent { docker { image 'alpine'
+                args '-u="root"' }
+            }
             steps {
-                // Використовувати Python 3.11.9
-                sh 'python3 -m pip install --upgrade pip'
-                sh 'pip3 install -r requirements.txt'
+                sh 'apk add --update python3 py-pip'
+                sh 'pip install Flask'
+                sh 'pip install xmlrunner'
                 sh 'python3 LAB4_programingTechnology_TEST.py'
             }
             post {
@@ -18,12 +29,12 @@
                     junit 'test-reports/*.xml'
                 }
                 success {
-                    echo "Tests passed successfully!"
+                    echo "Application testing successfully completed"
                 }
                 failure {
-                    echo "Tests failed!"
+                    echo "Oooppss!!! Tests failed!"
                 }
             }
-        }
-    }
-}
+        } // stage Test
+    } // stages
+} // pipeline
