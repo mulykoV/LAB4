@@ -7,7 +7,7 @@ pipeline {
             steps {
                 checkout scm
             }
-        } // stage Build
+        } // stage Check scm
         stage('Build') {
             steps {
                 echo "Building ...${BUILD_NUMBER}"
@@ -15,15 +15,13 @@ pipeline {
             }
         } // stage Build
         stage('Test') {
-            agent { docker { image 'alpine'
-                args '-u="root"' }
-            }
+            agent { docker { image 'my-jenkins-image' }} // Використовуємо образ, де Tkinter встановлено
             steps {
-                sh 'apk add --update python3 py3-pip'
+                // Створюємо віртуальне середовище
                 sh 'python3 -m venv venv'
-                // Використовуй python і pip з віртуального середовища
+                // Використовуємо pip з віртуального середовища
                 sh 'venv/bin/pip install -r requirements.txt'
-                sh 'venv/bin/python LAB4_programingTechnology_TEST.py'
+                sh 'venv/bin/python venv/bin/LAB4_programingTechnology_TEST.py'
             }
             post {
                 always {
@@ -38,4 +36,4 @@ pipeline {
             }
         } // stage Test
     } // stages
-}
+} // pipeline
