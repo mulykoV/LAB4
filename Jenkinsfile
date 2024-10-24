@@ -1,15 +1,25 @@
 pipeline {
-    agent any
+    options { timestamps() }
+    agent none
     stages {
+        stage('Check scm') {
+            agent any
+            steps {
+                checkout scm
+            }
+        } // stage Build
         stage('Build') {
             steps {
                 echo "Building ...${BUILD_NUMBER}"
+                echo "Build completed"
             }
-        }
+        } // stage Build
         stage('Test') {
+            agent { docker { image 'alpine'
+                args '-u="root"' }
+            }
             steps {
-                // Використовувати Python 3.11.9
-                sh 'python3.11 -m ensurepip --upgrade'
+               sh 'python3.11 -m ensurepip --upgrade'
                 sh 'python3.11 -m pip install --upgrade pip'
                 sh 'pip3.11 install -r requirements.txt'
                 sh 'python3.11 app_tests.py'
@@ -19,12 +29,12 @@ pipeline {
                     junit 'test-reports/*.xml'
                 }
                 success {
-                    echo "Tests passed successfully!"
+                    echo "Application testing successfully completed"
                 }
                 failure {
-                    echo "Tests failed!"
+                    echo "Oooppss!!! Tests failed!"
                 }
             }
-        }
-    }
-}
+        } // stage Test
+    } // stages
+} // pipeline
