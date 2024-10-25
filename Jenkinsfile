@@ -27,7 +27,7 @@ pipeline {
                 sh '. /venv/bin/activate'
                 
                 // Встановлення пакетів з requirements.txt
-                sh '/venv/bin/pip install -r /mnt/data/requirements.txt'
+                sh '/venv/bin/pip install -r requirements.txt'
                 
                 // Запуск тестування
                 sh '/venv/bin/python3 LAB4_programingTechnology_TEST.py'
